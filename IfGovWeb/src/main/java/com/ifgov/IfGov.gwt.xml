@@ -6,9 +6,9 @@
 	<inherits name='com.google.gwt.user.User' />
 
 	<!-- Inherit the default GWT style sheet. -->
-<!-- 	<inherits name='com.google.gwt.user.theme.standard.Standard' /> -->
-<!-- 	<inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
-	<inherits name="com.google.gwt.user.theme.chrome.Chrome"/>
+	<!-- <inherits name='com.google.gwt.user.theme.standard.Standard' /> -->
+	<!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
+	<inherits name="com.google.gwt.user.theme.chrome.Chrome" />
 
 	<!-- I'm using JSON for debugging -->
 	<inherits name="com.google.gwt.json.JSON" />
