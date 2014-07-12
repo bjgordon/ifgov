@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers">
+	<resultMap id="UsersMap" type="usersDto">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+	</resultMap>
+
+	<select id="readUsersDto" parameterType="long" resultType="usersDto">
+		select id, name from users where id = #{id}
+	</select>
+	
+	<select id="readUsersDtoByName" parameterType="String" resultType="usersDto">
+		select id, name from users where name = #{name}
+	</select>
+
+	<select id="readAllUsersDto" resultType="usersDto">
+		select * from users
+	</select>
+
+	<insert id="createUsersDto" parameterType="usersDto"
+		keyProperty="id" useGeneratedKeys="true">
+		insert into	users (name,address,lat,lon)
+		--Default notification to 1 for now
+		values (#{name},#{address},#{lat},#{lon})
+	</insert>
+	
+<!-- 	<update id="updateUsersDtoWithSubscription" parameterType="long"> -->
+<!-- 	UPDATE users SET notifications = (SELECT notifications from user where id= -->
+<!-- 	1) || 1 where id = 1; -->
+<!-- 	</update> -->
+	
+</mapper>

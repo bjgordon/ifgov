@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+	<title>ifGov</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta name="generator" content="Geany 1.22" />
+	<link rel="stylesheet" href="bootstrap-3.2.0-dist/css/bootstrap.min.css">
+</head>
+
+<body>
+	<div class="container">
+		<h1>ifGov</h1>
+		<div class="form-group">
+			<!-- username -->
+			<label for="userName">User name</label>
+			<input type="text" placeholder="User name" id="userName" class="form-control" />
+		</div>
+		<div class="form-group">
+			<!-- password -->
+			<label for="password">Password</label>
+			<input type="password" placeholder="Password" id="password" class="form-control" />
+		</div>
+		<div class="form-group">
+			<!-- datasource -->
+			<label for="dataSource">When</label>
+			<select id="dataSource" class="form-control">
+				<option>&lt;Data Source&gt;</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<!-- coordinates -->
+			<label>changes at</label>
+			<div class="input-group">
+			<input type="text" class="form-control" />
+			<span class="input-group-addon">&deg; North</span>
+			<input type="text" class="form-control" />
+			<span class="input-group-addon">&deg; East</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<!-- action -->
+			<label>then</label>
+			<select class="form-control">
+				<option>email</option>
+				<option>tweet</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<!-- email address -->
+			<label>me at</label>
+			<input type="text" class="form-control" />
+		</div>
+		<button type="button" class="btn btn-primary">Submit</button>
+	</div>
+</body>
+
+</html>
+
