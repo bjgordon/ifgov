@@ -19,9 +19,6 @@
 	<!-- Specify the app entry point class. -->
 	<entry-point class='com.ifgov.client.IfGov' />
 
-	<!-- Style sheets -->
-<!-- 	<stylesheet src="css/style.css" /> -->
-
 	<!-- Specify the paths for translatable code -->
 	<source path='client' />
 	<source path='shared' />
