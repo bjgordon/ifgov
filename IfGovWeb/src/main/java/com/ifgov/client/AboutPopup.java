@@ -13,10 +13,17 @@ public class AboutPopup {
 
 	public AboutPopup() {
 		FlowPanel flowPanel = new FlowPanel();
-		flowPanel.add(new HTML("<h1>If Gov Then That</h1>"));
-		flowPanel
-				.add(new HTML(
-						"<p>Search for your address, take a look at the data, then subscribe to get notified when it changes!</p>"));
+		flowPanel.add(new HTML("<h1>If Gov.au Then That</h1>"));
+		// flowPanel
+		// .add(new HTML(
+		// "<p>Search for your address, take a look at the data, then subscribe to get notified when it changes!</p>"));
+
+		String html = "<ul>";
+		html += "<li>Search for your address</li>";
+		html += "<li>See the open Australian government data that is applicable to your location</li>";
+		html += "<li>Subscribe to get notified about changes in your area</li>";
+		html += "</ul>";
+		flowPanel.add(new HTML(html));
 
 		Anchor anchor = new Anchor("OK lets go!");
 
@@ -31,10 +38,10 @@ public class AboutPopup {
 
 		flowPanel
 				.add(new HTML(
-						"<p /><p><i>Created by Brendan Gordon, Kelvin Wauchope, and James Caunce.</i></p>"));
+						"<br /><br /><br /><br /><i>Created by Brendan Gordon, Kelvin Wauchope, and James Caunce.</i></p>"));
 
 		flowPanel.setWidth("500px");
-		flowPanel.setHeight("400px");
+
 		flowPanel.getElement().getStyle().setPadding(20, Unit.PX);
 
 		popupPanel.add(flowPanel);
