@@ -71,11 +71,12 @@ def formatWMSValue(response):
   #for val in feature.findall(".//mxp:Val",namespaces=namespace):
   for val in root.findall(".//mxp:Val",namespaces=namespace):
     json[val.attrib["ref"]] = val.text
-  del json['ESA_NAME']
-  del json['ESA_DA']
-  del json['ESA_CODE']
-  del json['FILE_ID']
-  del json['ESA_STATE']
+  if len(json) > 0:
+    del json['ESA_NAME']
+    del json['ESA_DA']
+    del json['ESA_CODE']
+    del json['FILE_ID']
+    del json['ESA_STATE']
   return json
 
 if __name__ == '__main__':
