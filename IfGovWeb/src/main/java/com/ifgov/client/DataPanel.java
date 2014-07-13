@@ -10,8 +10,10 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
@@ -146,22 +148,48 @@ public class DataPanel extends Composite {
 				if (result == null) {
 					dataPanel.add(new Label("No data found."));
 				} else {
-					// todo parse the response show as a nice table
-
-					// JSONValue jsonValue = JSONParser.parseLenient(result);
-					// JSONObject array = jsonValue.isObject();
 					Grid broadband = getGridFromJson(result.getBroadband());
-					// int row = 0;
-					// for (String key : array.keySet()) {
-					// data.setWidget(row, 0, new Label(key));
-					// String value = array.get(key).isString().toString();
-					// data.setWidget(row, 1, new Label(value));
-					// row++;
-					// }
-					dataPanel
-							.add(new HTML(
-									"<label><a href='https://www.mybroadband.communications.gov.au/'>Broadband</a></label>"));
-					dataPanel.add(broadband);
+
+					DisclosurePanel broadbandDp = new DisclosurePanel(
+							"Broadband");
+
+					VerticalPanel broadbandWrapper = new VerticalPanel();
+					broadbandWrapper.add(new Anchor("Source",
+							"https://www.mybroadband.communications.gov.au"));
+					broadbandWrapper.add(broadband);
+					broadbandWrapper.getElement().getStyle()
+							.setPadding(10, Unit.PX);
+					broadbandDp.add(broadbandWrapper);
+
+					broadbandDp.setOpen(true);
+					dataPanel.add(broadbandDp);
+
+					// todo implement other data sources
+					{
+
+						VerticalPanel wagesWrapper = new VerticalPanel();
+
+						DisclosurePanel disclosurePanel = new DisclosurePanel(
+								"Income");
+						wagesWrapper.add(new Anchor("Source"));
+						wagesWrapper.add(new Label("todo"));
+
+						disclosurePanel.add(wagesWrapper);
+						dataPanel.add(disclosurePanel);
+					}
+					{
+
+						DisclosurePanel disclosurePanel = new DisclosurePanel(
+								"Public Art");
+
+						VerticalPanel verticalPanel = new VerticalPanel();
+						verticalPanel.add(new Anchor("Source"));
+						verticalPanel.add(new Label("todo"));
+
+						disclosurePanel.add(verticalPanel);
+						dataPanel.add(disclosurePanel);
+					}
+
 				}
 
 			}
