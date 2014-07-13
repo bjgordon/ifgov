@@ -42,7 +42,7 @@ public class IfGov implements EntryPoint {
 
 		// load all the libs for use
 		ArrayList<LoadLibrary> loadLibraries = new ArrayList<LoadApi.LoadLibrary>();
-		loadLibraries.add(LoadLibrary.ADSENSE);
+		// loadLibraries.add(LoadLibrary.ADSENSE);
 		// loadLibraries.add(LoadLibrary.DRAWING);
 		loadLibraries.add(LoadLibrary.GEOMETRY);
 		loadLibraries.add(LoadLibrary.PANORAMIO);
