@@ -50,6 +50,7 @@ public class SubscribePopup extends Composite {
 		// changesAt.setText("" + lat + " °North, " + lon + " °East");
 		when.addItem("Broadband");
 		when.addItem("Average salary");
+		when.addItem("New dataset is available");
 		then.addItem("Email");
 		then.addItem("Tweet");
 		then.addItem("SMS");

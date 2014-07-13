@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -29,10 +30,18 @@ public class DataPanel extends Composite {
 	VerticalPanel dataPanel = new VerticalPanel();
 	Button subscribe = new Button("Subscribe");
 
+	FlowPanel loadingPanel = new FlowPanel();
+
 	double lat;
 	double lon;
 
 	public DataPanel() {
+
+		Image image = new Image();
+		image.setUrl("ajax-loader.gif");
+		loadingPanel
+				.add(new HTML("<p><i>Fetching data, please wait...</i></p>"));
+		loadingPanel.add(image);
 
 		flowPanel.getElement().setClassName("form-group");
 
@@ -45,6 +54,7 @@ public class DataPanel extends Composite {
 
 		// flowPanel.add(new HTML("<h1>Data</h1>"));
 		flowPanel.add(changesAt);
+		flowPanel.add(loadingPanel);
 		flowPanel.add(dataPanel);
 		flowPanel.add(new HTML("<p />"));
 		flowPanel
@@ -56,7 +66,7 @@ public class DataPanel extends Composite {
 		// flowPanel.setHeight("400px");
 
 		flowPanel.getElement().getStyle().setPosition(Position.ABSOLUTE);
-		flowPanel.getElement().getStyle().setTop(40, Unit.PX);
+		flowPanel.getElement().getStyle().setTop(70, Unit.PX);
 		flowPanel.getElement().getStyle().setRight(10, Unit.PX);
 		flowPanel.getElement().getStyle().setBackgroundColor("#fafafc");
 		flowPanel.getElement().getStyle().setPadding(20, Unit.PX);
@@ -86,8 +96,16 @@ public class DataPanel extends Composite {
 
 		JSONValue jsonValue = JSONParser.parseLenient(json);
 		JSONObject array = jsonValue.isObject();
+
+		if (array.keySet().isEmpty()) {
+			Grid grid = new Grid(1, 1);
+			grid.setWidget(0, 0, new Label("No data found."));
+			return grid;
+		}
+
 		Grid grid = new Grid(array.keySet().size(), 2);
 		int row = 0;
+
 		for (String key : array.keySet()) {
 			grid.setWidget(row, 0, new Label(key));
 			String value = array.get(key).isString().toString();
@@ -96,6 +114,7 @@ public class DataPanel extends Composite {
 			grid.setWidget(row, 1, new Label(value));
 			row++;
 		}
+		grid.setCellPadding(5);
 		return grid;
 	}
 
@@ -107,6 +126,9 @@ public class DataPanel extends Composite {
 		changesAt.setText("Data at " + decimalFormat.format(lat) + " °North, "
 				+ decimalFormat.format(lon) + " °East");
 
+		loadingPanel.setVisible(true);
+		dataPanel.clear();
+		subscribe.setEnabled(false);
 		// get data at this location
 		IfGovServiceAsync service = GWT.create(IfGovService.class);
 		service.getData(lat, lon, new AsyncCallback<DataDto>() {
@@ -117,6 +139,8 @@ public class DataPanel extends Composite {
 
 			@Override
 			public void onSuccess(DataDto result) {
+				loadingPanel.setVisible(false);
+				subscribe.setEnabled(true);
 				dataFromServer = result;
 				dataPanel.clear();
 				if (result == null) {

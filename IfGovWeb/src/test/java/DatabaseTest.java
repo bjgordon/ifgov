@@ -1,8 +1,6 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
 import org.junit.Test;
 
 import com.ifgov.server.dao.TheDao;
@@ -15,8 +13,8 @@ public class DatabaseTest {
 
 		TheDao dao = new TheDao();
 
-		List<SubscriptionDto> dtos = dao.readAllSubscriptions();
-		assertTrue(dtos.size() > 0);
+		// List<SubscriptionDto> dtos = dao.readAllSubscriptions();
+		// assertTrue(dtos.size() > 0);
 
 		SubscriptionDto dto = dao.readSubscriptionById(7);
 

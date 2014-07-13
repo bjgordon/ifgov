@@ -4,6 +4,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.maps.client.MapOptions;
 import com.google.gwt.maps.client.MapTypeId;
 import com.google.gwt.maps.client.MapWidget;
@@ -29,6 +31,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
@@ -37,6 +40,8 @@ public class MapComposite extends Composite {
 	private FlowPanel pWidget;
 
 	private MapWidget mapWidget;
+
+	FlowPanel addressPanel = new FlowPanel();
 
 	private TextBox tbPlaces = new TextBox();
 
@@ -76,6 +81,11 @@ public class MapComposite extends Composite {
 
 		t.schedule(200);
 
+	}
+
+	public void setPanelsVisible(boolean visible) {
+		dataPopup.setVisible(visible);
+		addressPanel.setVisible(visible);
 	}
 
 	private void draw() {
@@ -154,18 +164,19 @@ public class MapComposite extends Composite {
 		});
 
 		// Position the Autocomplete on top of the map
-		FlowPanel flowPanel = new FlowPanel();
-		flowPanel.add(new Label("Search for a location, or drag the marker."));
-		flowPanel.add(tbPlaces);
+
+		addressPanel
+				.add(new Label("Search for a location, or drag the marker."));
+		addressPanel.add(tbPlaces);
 
 		tbPlaces.setWidth("300px");
-		flowPanel.getElement().getStyle().setPosition(Position.ABSOLUTE);
-		flowPanel.getElement().getStyle().setTop(6, Unit.PX);
-		flowPanel.getElement().getStyle().setLeft(100, Unit.PX);
-		flowPanel.getElement().getStyle().setBackgroundColor("#fafafc");
-		flowPanel.getElement().getStyle().setPadding(10, Unit.PX);
-		flowPanel.addStyleName("rounded-panel");
-		pWidget.add(flowPanel);
+		addressPanel.getElement().getStyle().setPosition(Position.ABSOLUTE);
+		addressPanel.getElement().getStyle().setTop(6, Unit.PX);
+		addressPanel.getElement().getStyle().setLeft(90, Unit.PX);
+		addressPanel.getElement().getStyle().setBackgroundColor("#fafafc");
+		addressPanel.getElement().getStyle().setPadding(10, Unit.PX);
+		addressPanel.addStyleName("rounded-panel");
+		pWidget.add(addressPanel);
 	}
 
 	private Marker marker;
@@ -207,5 +218,14 @@ public class MapComposite extends Composite {
 	void showAboutPopup() {
 		AboutPopup aboutPopup = new AboutPopup();
 		aboutPopup.show();
+		setPanelsVisible(false);
+		aboutPopup.addCloseHandler(new CloseHandler<PopupPanel>() {
+
+			@Override
+			public void onClose(CloseEvent<PopupPanel> event) {
+				setPanelsVisible(true);
+
+			}
+		});
 	}
 }
