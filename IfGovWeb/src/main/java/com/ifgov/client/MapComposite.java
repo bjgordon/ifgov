@@ -4,8 +4,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.maps.client.MapOptions;
 import com.google.gwt.maps.client.MapTypeId;
 import com.google.gwt.maps.client.MapWidget;
@@ -28,12 +26,10 @@ import com.google.gwt.maps.client.placeslib.AutocompleteType;
 import com.google.gwt.maps.client.placeslib.PlaceGeometry;
 import com.google.gwt.maps.client.placeslib.PlaceResult;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
 public class MapComposite extends Composite {
@@ -43,6 +39,8 @@ public class MapComposite extends Composite {
 	private MapWidget mapWidget;
 
 	private TextBox tbPlaces = new TextBox();
+
+	DataPanel dataPopup;
 
 	public MapComposite() {
 
@@ -55,11 +53,28 @@ public class MapComposite extends Composite {
 
 		draw();
 
-		// Start centred on Canberra
-		LatLng canberra = LatLng.newInstance(-35.2819998, 149.12868430000003);
-		mapWidget.panTo(canberra);
-		mapWidget.setZoom(8);
-		dropMarker(canberra);
+		Timer t = new Timer() {
+			@Override
+			public void run() {
+				// popupPanel.center();
+				// popupPanel.show();
+
+				// SubscribePopup subscribePopup = new SubscribePopup(1.0, 2.0);
+				// subscribePopup.show();
+
+				// Start centred on Canberra
+				LatLng canberra = LatLng.newInstance(-35.2819998,
+						149.12868430000003);
+				mapWidget.panTo(canberra);
+				mapWidget.setZoom(8);
+				dropMarker(canberra);
+
+				showAboutPopup();
+
+			}
+		};
+
+		t.schedule(200);
 
 	}
 
@@ -67,11 +82,12 @@ public class MapComposite extends Composite {
 
 		drawMap();
 		drawAutoComplete();
-		drawWelcome();
+
 	}
 
 	private void drawMap() {
-		LatLng center = LatLng.newInstance(49.496675, -102.65625);
+		LatLng center = LatLng.newInstance(-35.2819998, 149.12868430000003);
+		;
 		MapOptions opts = MapOptions.newInstance();
 		opts.setZoom(4);
 		opts.setCenter(center);
@@ -147,6 +163,8 @@ public class MapComposite extends Composite {
 		flowPanel.getElement().getStyle().setTop(6, Unit.PX);
 		flowPanel.getElement().getStyle().setLeft(100, Unit.PX);
 		flowPanel.getElement().getStyle().setBackgroundColor("#fafafc");
+		flowPanel.getElement().getStyle().setPadding(10, Unit.PX);
+		flowPanel.addStyleName("rounded-panel");
 		pWidget.add(flowPanel);
 	}
 
@@ -169,46 +187,25 @@ public class MapComposite extends Composite {
 
 			@Override
 			public void onEvent(DragEndMapEvent event) {
-
+				pinMoved();
 			}
 		});
+
+		pinMoved();
 	}
 
-	void drawWelcome() {
-		final PopupPanel popupPanel = new PopupPanel(true, true);
-		FlowPanel flowPanel = new FlowPanel();
-		flowPanel.add(new HTML("<h1>If Gov Then That</h1>"));
-		flowPanel
-				.add(new HTML(
-						"<p>Welcome to If Gov Then That. Search for your address, take a look at the data, then subscribe to get notified when it changes!</p>"));
+	void pinMoved() {
+		if (dataPopup == null) {
+			dataPopup = new DataPanel();
+			RootPanel.get().add(dataPopup);
+		}
 
-		Anchor anchor = new Anchor("OK lets go!");
-		anchor.addClickHandler(new ClickHandler() {
+		dataPopup.setLocation(marker.getPosition().getLatitude(), marker
+				.getPosition().getLongitude());
+	}
 
-			@Override
-			public void onClick(ClickEvent arg0) {
-				popupPanel.hide();
-			}
-		});
-		flowPanel.add(anchor);
-		flowPanel.setWidth("500px");
-		flowPanel.setHeight("400px");
-
-		popupPanel.add(flowPanel);
-
-		Timer t = new Timer() {
-			@Override
-			public void run() {
-				// popupPanel.center();
-				// popupPanel.show();
-
-				SubscribePopup subscribePopup = new SubscribePopup(1.0, 2.0);
-				subscribePopup.show();
-			}
-		};
-
-		// Schedule the timer to run once in 5 seconds.
-		t.schedule(1000);
-
+	void showAboutPopup() {
+		AboutPopup aboutPopup = new AboutPopup();
+		aboutPopup.show();
 	}
 }

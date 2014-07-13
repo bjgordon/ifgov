@@ -1,29 +1,40 @@
 package com.ifgov.shared;
 
+import java.util.Date;
+
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class SubscriptionDto implements IsSerializable {
+	Integer id;
 	String name;
-	String when;
 	Double lat;
 	Double lon;
-	String then;
-	String at;
+	Integer sourceid;
+	Integer notification;
+	String notificatonsettings;
+	Integer condition;
+	String conditionvalue;
+	Date lastupdate;
+	String lastvalue;
+	Date currentupdate;
+	String currentvalue;
+	Date lastnotified;
+	Boolean welcomed;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String username) {
-		this.name = username;
-	}
-
-	public String getWhen() {
-		return when;
-	}
-
-	public void setWhen(String when) {
-		this.when = when;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Double getLat() {
@@ -42,20 +53,105 @@ public class SubscriptionDto implements IsSerializable {
 		this.lon = lon;
 	}
 
-	public String getThen() {
-		return then;
+	public Integer getSourceid() {
+		return sourceid;
 	}
 
-	public void setThen(String then) {
-		this.then = then;
+	public void setSourceid(Integer sourceid) {
+		this.sourceid = sourceid;
 	}
 
-	public String getAt() {
-		return at;
+	public Integer getNotification() {
+		return notification;
 	}
 
-	public void setAt(String at) {
-		this.at = at;
+	public void setNotification(Integer notification) {
+		this.notification = notification;
+	}
+
+	public String getNotificatonsettings() {
+		return notificatonsettings;
+	}
+
+	public void setNotificatonsettings(String notificatonsettings) {
+		this.notificatonsettings = notificatonsettings;
+	}
+
+	public Integer getCondition() {
+		return condition;
+	}
+
+	public void setCondition(Integer condition) {
+		this.condition = condition;
+	}
+
+	public String getConditionvalue() {
+		return conditionvalue;
+	}
+
+	public void setConditionvalue(String conditionvalue) {
+		this.conditionvalue = conditionvalue;
+	}
+
+	public Date getLastupdate() {
+		return lastupdate;
+	}
+
+	public void setLastupdate(Date lastupdate) {
+		this.lastupdate = lastupdate;
+	}
+
+	public String getLastvalue() {
+		return lastvalue;
+	}
+
+	public void setLastvalue(String lastvalue) {
+		this.lastvalue = lastvalue;
+	}
+
+	public Date getCurrentupdate() {
+		return currentupdate;
+	}
+
+	public void setCurrentupdate(Date currentupdate) {
+		this.currentupdate = currentupdate;
+	}
+
+	public String getCurrentvalue() {
+		return currentvalue;
+	}
+
+	public void setCurrentvalue(String currentvalue) {
+		this.currentvalue = currentvalue;
+	}
+
+	public Date getLastnotified() {
+		return lastnotified;
+	}
+
+	public void setLastnotified(Date lastnotified) {
+		this.lastnotified = lastnotified;
+	}
+
+	public Boolean getWelcomed() {
+		return welcomed;
+	}
+
+	public void setWelcomed(Boolean welcomed) {
+		this.welcomed = welcomed;
+	}
+
+	@Override
+	public String toString() {
+		return "SubscriptionDto [id=" + id + ", name=" + name + ", lat=" + lat
+				+ ", lon=" + lon + ", sourceid=" + sourceid + ", notification="
+				+ notification + ", notificatonsettings=" + notificatonsettings
+				+ ", condition=" + condition + ", conditionvalue="
+				+ conditionvalue + ", lastupdate=" + lastupdate
+				+ ", lastvalue=" + lastvalue + ", currentupdate="
+				+ currentupdate + ", currentvalue=" + currentvalue
+				+ ", lastnotified=" + lastnotified + ", welcomed=" + welcomed
+				+ "]";
 	}
 
 }

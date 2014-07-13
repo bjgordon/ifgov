@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -15,11 +16,12 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.ifgov.shared.DataDto;
 import com.ifgov.shared.SubscriptionDto;
 
 public class SubscribePopup extends Composite {
 	PopupPanel popupPanel = new PopupPanel(false, true);
-
+	FlowPanel flowPanel = new FlowPanel();
 	HTML error = new HTML();
 	TextBox name = new TextBox();
 
@@ -30,20 +32,26 @@ public class SubscribePopup extends Composite {
 	Button subscribe = new Button("Subscribe");
 	Button cancel = new Button("Cancel");
 
-	Double lat;
-	Double lon;
+	double lat;
+	double lon;
+	DataDto data;
 
-	public SubscribePopup(Double lat, Double lon) {
+	public SubscribePopup(double lat, double lon, DataDto data) {
 		this.lat = lat;
 		this.lon = lon;
+		this.data = data;
 
-		changesAt.setText("" + lat + " °North, " + lon + " °East");
+		NumberFormat decimalFormat = NumberFormat.getFormat(".###");
+
+		changesAt.setText("" + decimalFormat.format(lat) + " °North, "
+				+ decimalFormat.format(lon) + " °East");
+
+		// changesAt.setText("" + lat + " °North, " + lon + " °East");
 		when.addItem("Broadband");
 		when.addItem("Average salary");
 		then.addItem("email");
 		then.addItem("tweet");
 
-		FlowPanel flowPanel = new FlowPanel();
 		flowPanel.getElement().setClassName("form-group");
 
 		name.getElement().setAttribute("placeholder", "Name");
@@ -59,8 +67,9 @@ public class SubscribePopup extends Composite {
 		cancel.getElement().addClassName("btn-primary");
 
 		flowPanel.add(new HTML("<h1>Create new subscription</h1>"));
-		flowPanel.add(new HTML("<label>Name</label>"));
+		flowPanel.add(new HTML("<label>Please tell us your name</label>"));
 		flowPanel.add(name);
+		flowPanel.add(new HTML("<br />"));
 		flowPanel.add(new HTML("<label>When</label>"));
 		flowPanel.add(when);
 		flowPanel.add(new HTML("<label>changes at</label>"));
@@ -69,6 +78,7 @@ public class SubscribePopup extends Composite {
 		flowPanel.add(then);
 		flowPanel.add(new HTML("<label>me at</label>"));
 		flowPanel.add(meAt);
+		flowPanel.add(new HTML("<br />"));
 		flowPanel.add(error);
 		flowPanel.add(subscribe);
 		flowPanel.add(cancel);
@@ -116,6 +126,9 @@ public class SubscribePopup extends Composite {
 		error.setVisible(false);
 		error.getElement().getStyle().setColor("red");
 
+		popupPanel.setGlassEnabled(true);
+		popupPanel.setAnimationEnabled(true);
+		popupPanel.addStyleName("rounded-panel");
 	}
 
 	public void show() {
@@ -130,9 +143,14 @@ public class SubscribePopup extends Composite {
 	public void doSubscribe() {
 		SubscriptionDto subscriptionDto = new SubscriptionDto();
 		subscriptionDto.setName(name.getText());
-		subscriptionDto.setWhen(when.getItemText(when.getSelectedIndex()));
-		subscriptionDto.setThen(then.getItemText(then.getSelectedIndex()));
-		subscriptionDto.setAt(meAt.getText());
+		subscriptionDto.setLat(lat);
+		subscriptionDto.setLon(lon);
+		subscriptionDto.setCurrentvalue(data.getBroadband());
+		// todo handle sourceid
+		subscriptionDto.setSourceid(1);
+		// subscriptionDto.setWhen(when.getItemText(when.getSelectedIndex()));
+		// subscriptionDto.setThen(then.getItemText(then.getSelectedIndex()));
+		// subscriptionDto.setAt(meAt.getText());
 
 		subscribe.setEnabled(false);
 		subscribe.setText("Subscribing...");
@@ -150,7 +168,14 @@ public class SubscribePopup extends Composite {
 
 			@Override
 			public void onSuccess(Void arg0) {
-				popupPanel.hide();
+				// popupPanel.hide();
+				subscribe.setVisible(false);
+				cancel.setText("Close");
+
+				flowPanel
+						.add(new HTML(
+								"<label>Successfully subscribed. You will receive a confirmation email.</label>"));
+
 			}
 		});
 

@@ -1,34 +1,37 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import org.junit.Test;
 
-import com.ifgov.server.dao.UsersDao;
-import com.ifgov.shared.UsersDto;
+import com.ifgov.server.dao.TheDao;
+import com.ifgov.shared.SubscriptionDto;
 
 public class DatabaseTest {
 	@Test
 	public void testdatabase() throws Exception {
 		// make sure the db works
 
-		UsersDao dao = new UsersDao();
+		TheDao dao = new TheDao();
 
-		// List<UsersDto> dtos = dao.readAllUsersDtos();
-		// assertTrue(dtos.size() > 0);
+		List<SubscriptionDto> dtos = dao.readAllSubscriptions();
+		assertTrue(dtos.size() > 0);
 
-		UsersDto dto = dao.readUsersDtoByName("testname");
-		assertEquals("testname", dto.getName());
+		SubscriptionDto dto = dao.readSubscriptionById(7);
 
+		assertEquals("test", dto.getName());
 	}
 
 	@Test
 	public void createUser() throws Exception {
-		UsersDao dao = new UsersDao();
-		UsersDto usersDto = new UsersDto();
-		usersDto.setName("unittest");
-		usersDto.setLat(1.0);
-		usersDto.setLon(2.0);
-		long result = dao.createUsersDto(usersDto);
+		TheDao dao = new TheDao();
+		SubscriptionDto subscriptionDto = new SubscriptionDto();
+		subscriptionDto.setName("unittest");
+		subscriptionDto.setLat(1.0);
+		subscriptionDto.setLon(2.0);
+		subscriptionDto.setSourceid(1);
+		long result = dao.createSubscription(subscriptionDto);
 		assertTrue(result > 0);
 		System.out.println("res =" + result);
 	}
