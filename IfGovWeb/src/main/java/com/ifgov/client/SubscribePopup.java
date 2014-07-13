@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.NumberFormat;
@@ -49,8 +50,10 @@ public class SubscribePopup extends Composite {
 		// changesAt.setText("" + lat + " °North, " + lon + " °East");
 		when.addItem("Broadband");
 		when.addItem("Average salary");
-		then.addItem("email");
-		then.addItem("tweet");
+		then.addItem("Email");
+		then.addItem("Tweet");
+		then.addItem("SMS");
+		then.addItem("XMPP");
 
 		flowPanel.getElement().setClassName("form-group");
 
@@ -69,7 +72,8 @@ public class SubscribePopup extends Composite {
 		flowPanel.add(new HTML("<h1>Create new subscription</h1>"));
 		flowPanel.add(new HTML("<label>Please tell us your name</label>"));
 		flowPanel.add(name);
-		flowPanel.add(new HTML("<br />"));
+		// flowPanel.add(new HTML("<br />"));
+		flowPanel.add(new HTML("<hr />"));
 		flowPanel.add(new HTML("<label>When</label>"));
 		flowPanel.add(when);
 		flowPanel.add(new HTML("<label>changes at</label>"));
@@ -85,7 +89,7 @@ public class SubscribePopup extends Composite {
 
 		popupPanel.add(flowPanel);
 		popupPanel.setWidth("500px");
-		popupPanel.setHeight("400px");
+		// popupPanel.setHeight("400px");
 
 		subscribe.addClickHandler(new ClickHandler() {
 
@@ -123,9 +127,18 @@ public class SubscribePopup extends Composite {
 			}
 		});
 
+		then.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				setMeAtPlaceholder();
+			}
+		});
+		setMeAtPlaceholder();
+
 		error.setVisible(false);
 		error.getElement().getStyle().setColor("red");
-
+		flowPanel.getElement().getStyle().setPadding(20, Unit.PX);
 		popupPanel.setGlassEnabled(true);
 		popupPanel.setAnimationEnabled(true);
 		popupPanel.addStyleName("rounded-panel");
@@ -146,11 +159,11 @@ public class SubscribePopup extends Composite {
 		subscriptionDto.setLat(lat);
 		subscriptionDto.setLon(lon);
 		subscriptionDto.setCurrentvalue(data.getBroadband());
+		subscriptionDto.setNotification(1); // todo email
+		subscriptionDto.setNotificationsettings(meAt.getText());
+
 		// todo handle sourceid
 		subscriptionDto.setSourceid(1);
-		// subscriptionDto.setWhen(when.getItemText(when.getSelectedIndex()));
-		// subscriptionDto.setThen(then.getItemText(then.getSelectedIndex()));
-		// subscriptionDto.setAt(meAt.getText());
 
 		subscribe.setEnabled(false);
 		subscribe.setText("Subscribing...");
@@ -172,12 +185,30 @@ public class SubscribePopup extends Composite {
 				subscribe.setVisible(false);
 				cancel.setText("Close");
 
-				flowPanel
-						.add(new HTML(
-								"<label>Successfully subscribed. You will receive a confirmation email.</label>"));
+				String confirmationMethod = then.getItemText(then
+						.getSelectedIndex());
+				flowPanel.add(new HTML(
+						"<label>Successfully subscribed. You will receive a confirmation "
+								+ confirmationMethod + ".</label>"));
 
 			}
 		});
 
+	}
+
+	void setMeAtPlaceholder() {
+
+		String thenStr = then.getItemText(then.getSelectedIndex());
+		String placeholder;
+		if (thenStr.equalsIgnoreCase("email")) {
+			placeholder = "Email address";
+		} else if (thenStr.equalsIgnoreCase("tweet")) {
+			placeholder = "Twitter account";
+		} else if (thenStr.equalsIgnoreCase("sms")) {
+			placeholder = "Mobile number";
+		} else {
+			placeholder = "";
+		}
+		meAt.getElement().setAttribute("placeholder", placeholder);
 	}
 }

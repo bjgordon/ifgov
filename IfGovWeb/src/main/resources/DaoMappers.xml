@@ -13,12 +13,11 @@
 		subscriptions where id = #{value}
 	</select>
 
-
 	<insert id="createSubscription" parameterType="subscriptionDto"
 		keyProperty="id" useGeneratedKeys="true">
 		insert into subscriptions
-		(name,lat,lon)
-		values (#{name},#{lat},#{lon})
+		(name,lat,lon,sourceid,currentupdate,currentvalue,lastnotified,notification, notificationsettings)
+		values (#{name},#{lat},#{lon},#{sourceid},now(),#{currentvalue}, now(), #{notification},#{notificationsettings})
 	</insert>
 
 </mapper>

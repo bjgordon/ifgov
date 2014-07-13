@@ -31,6 +31,9 @@ public class DatabaseTest {
 		subscriptionDto.setLat(1.0);
 		subscriptionDto.setLon(2.0);
 		subscriptionDto.setSourceid(1);
+		subscriptionDto.setCurrentvalue("{testcurrentvalue}");
+		subscriptionDto.setNotification(1);
+		subscriptionDto.setNotificationsettings("unittest@test.com");
 		long result = dao.createSubscription(subscriptionDto);
 		assertTrue(result > 0);
 		System.out.println("res =" + result);

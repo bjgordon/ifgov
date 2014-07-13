@@ -11,7 +11,7 @@ public class SubscriptionDto implements IsSerializable {
 	Double lon;
 	Integer sourceid;
 	Integer notification;
-	String notificatonsettings;
+	String notificationsettings;
 	Integer condition;
 	String conditionvalue;
 	Date lastupdate;
@@ -69,12 +69,12 @@ public class SubscriptionDto implements IsSerializable {
 		this.notification = notification;
 	}
 
-	public String getNotificatonsettings() {
-		return notificatonsettings;
+	public String getNotificationsettings() {
+		return notificationsettings;
 	}
 
-	public void setNotificatonsettings(String notificatonsettings) {
-		this.notificatonsettings = notificatonsettings;
+	public void setNotificationsettings(String notificationsettings) {
+		this.notificationsettings = notificationsettings;
 	}
 
 	public Integer getCondition() {
@@ -145,10 +145,10 @@ public class SubscriptionDto implements IsSerializable {
 	public String toString() {
 		return "SubscriptionDto [id=" + id + ", name=" + name + ", lat=" + lat
 				+ ", lon=" + lon + ", sourceid=" + sourceid + ", notification="
-				+ notification + ", notificatonsettings=" + notificatonsettings
-				+ ", condition=" + condition + ", conditionvalue="
-				+ conditionvalue + ", lastupdate=" + lastupdate
-				+ ", lastvalue=" + lastvalue + ", currentupdate="
+				+ notification + ", notificationsettings="
+				+ notificationsettings + ", condition=" + condition
+				+ ", conditionvalue=" + conditionvalue + ", lastupdate="
+				+ lastupdate + ", lastvalue=" + lastvalue + ", currentupdate="
 				+ currentupdate + ", currentvalue=" + currentvalue
 				+ ", lastnotified=" + lastnotified + ", welcomed=" + welcomed
 				+ "]";

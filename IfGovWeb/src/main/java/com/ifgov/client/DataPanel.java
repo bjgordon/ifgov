@@ -91,6 +91,8 @@ public class DataPanel extends Composite {
 		for (String key : array.keySet()) {
 			grid.setWidget(row, 0, new Label(key));
 			String value = array.get(key).isString().toString();
+			// strip quotes from around value
+			value = value.replace("\"", "");
 			grid.setWidget(row, 1, new Label(value));
 			row++;
 		}

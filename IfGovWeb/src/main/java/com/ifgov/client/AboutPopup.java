@@ -1,5 +1,6 @@
 package com.ifgov.client;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
@@ -34,6 +35,7 @@ public class AboutPopup {
 
 		flowPanel.setWidth("500px");
 		flowPanel.setHeight("400px");
+		flowPanel.getElement().getStyle().setPadding(20, Unit.PX);
 
 		popupPanel.add(flowPanel);
 		popupPanel.setGlassEnabled(true);
